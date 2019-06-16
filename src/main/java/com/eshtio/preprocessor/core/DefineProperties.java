@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
+ * Preprocessor define properties, support only boolean values.
+ * All non boolean values will be transformed to 'false'
+ *
  * Created by EshtIO on 2019-06-15.
  */
 public class DefineProperties {
@@ -22,6 +25,12 @@ public class DefineProperties {
         this.map = map;
     }
 
+    /**
+     * Read properties from file and create object
+     *
+     * @param filePath properties file
+     * @return {@link DefineProperties}
+     */
     public static DefineProperties read(String filePath) {
         Properties properties = new Properties();
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
@@ -39,6 +48,12 @@ public class DefineProperties {
         return new DefineProperties(defineMap);
     }
 
+    /**
+     * Get property boolean value
+     *
+     * @param key property name
+     * @return boolean
+     */
     public boolean getValue(String key) {
         Boolean result = map.get(key);
         if (result == null) {

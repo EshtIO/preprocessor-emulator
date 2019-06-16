@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 import static com.eshtio.preprocessor.core.directives.Directive.*;
 
 /**
+ * #if-directive handler implementation, mutable
+ *
  * Created by EshtIO on 2019-06-15.
  */
 public class IfDirectivesLineHandler implements DirectiveLineHandler {

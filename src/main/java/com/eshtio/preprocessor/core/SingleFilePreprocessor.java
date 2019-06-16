@@ -12,6 +12,9 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 /**
+ * Preprocessor of one file, mutable.
+ * Contains {@link DirectiveFileState} state
+ *
  * Created by EshtIO on 2019-06-15.
  */
 public class SingleFilePreprocessor {

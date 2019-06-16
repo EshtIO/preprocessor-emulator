@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ * Simple C# preprocessor implementation
+ *
  * Created by EshtIO on 2019-06-16.
  */
 public class CSharpFilesPreprocessor {
@@ -57,6 +59,7 @@ public class CSharpFilesPreprocessor {
         }
     }
 
+    @SuppressWarnings({"ResultOfMethodCallIgnored"})
     private static void deleteRecursive(Path path) throws IOException {
         try (Stream<Path> walk = Files.walk(path)) {
             walk.sorted(Comparator.reverseOrder())

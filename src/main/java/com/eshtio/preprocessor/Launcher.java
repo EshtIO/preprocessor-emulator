@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Main C# preprocessor class
+ *
  * Created by EshtIO on 2019-06-15.
  */
 public class Launcher {
