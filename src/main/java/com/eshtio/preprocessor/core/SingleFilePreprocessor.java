@@ -50,7 +50,7 @@ public class SingleFilePreprocessor {
         // if directive identifier detected, then find directive
         if (trimmedLine.startsWith(Directive.IDENTIFIER)) {
             Optional<Directive> foundDirective = Directive.findByKey(trimmedLine.split(" ")[0]);
-            // if directive not found, skip unknown directives
+            // if directive is unknown, just skip it
             if (!foundDirective.isPresent()) {
                 writeLine(line, target);
             } else {
@@ -64,12 +64,11 @@ public class SingleFilePreprocessor {
             }
         } else {
             switch (state) {
-                case DEFAULT:
-                    writeLine(line, target);
-                    return;
                 case SKIP_LINES:
+                    return;
+                case DEFAULT:
                 default:
-                    // do nothing
+                    writeLine(line, target);
             }
         }
     }
