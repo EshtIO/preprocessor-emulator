@@ -47,14 +47,15 @@ public class SingleFilePreprocessor {
 
     private void runPreprocessLine(String line, BufferedWriter target) {
         String trimmedLine = line.trim();
-        // if directive detected and supported, then change preprocessor state
+        // if directive identifier detected, then find directive
         if (trimmedLine.startsWith(Directive.IDENTIFIER)) {
             Optional<Directive> foundDirective = Directive.findByKey(trimmedLine.split(" ")[0]);
+            // if directive not found, skip unknown directives
             if (!foundDirective.isPresent()) {
-                // skip unknown directives
                 writeLine(line, target);
             } else {
                 Directive directive = foundDirective.get();
+                // if directive supported, then change preprocessor state
                 if (lineHandler.isSupportDirective(directive)) {
                     state = lineHandler.handleLine(directive, trimmedLine);
                 } else {
