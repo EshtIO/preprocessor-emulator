@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -42,10 +40,8 @@ public class CSharpFilesPreprocessor {
         log.info("Run preprocessor file parsing. Input path '{}', output path '{}', define properties file '{}'",
                 inputPath, outputPath, config.getDefinedPropertiesFile());
 
-        try (Stream<Path> paths = Files.find(
-                inputPath, Integer.MAX_VALUE, (path, attrs) -> CSHARP_FILE_MATCHER.matches(path.getFileName()))) {
-            List<Path> collect = paths.collect(Collectors.toList());
-            collect.forEach(source ->
+        try (Stream<Path> paths = Files.find(inputPath, Integer.MAX_VALUE, (path, attrs) -> attrs.isRegularFile())) {
+            paths.forEach(source ->
                     runPreprocessFile(source, outputPath.resolve(inputPath.relativize(source)), define)
             );
             log.info("Preprocessor completed");
@@ -72,12 +68,15 @@ public class CSharpFilesPreprocessor {
     private void runPreprocessFile(Path sourceFile, Path targetFile, DefineProperties defineProperties) {
         try {
             Files.createDirectories(targetFile.getParent());
-            SingleFilePreprocessor filePreprocessor = new SingleFilePreprocessor(
-                    sourceFile,
-                    targetFile,
-                    new IfDirectivesLineHandler(defineProperties)
-            );
-            filePreprocessor.runPreprocessFile();
+            if (CSHARP_FILE_MATCHER.matches(sourceFile.getFileName())) {
+                new SingleFilePreprocessor(
+                        sourceFile,
+                        targetFile,
+                        new IfDirectivesLineHandler(defineProperties)
+                ).runPreprocessFile();
+            } else {
+                Files.copy(sourceFile, targetFile);
+            }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
