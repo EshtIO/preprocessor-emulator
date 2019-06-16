@@ -1,0 +1,7 @@
+// some code here 1
+#define SOME_DEFINE
+#define SOME_DEFINE_2
+#if TRUE_KEY
+// some code here 2
+#endif
+// last line

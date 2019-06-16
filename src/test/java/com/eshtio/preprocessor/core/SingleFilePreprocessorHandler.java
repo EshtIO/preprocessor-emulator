@@ -28,6 +28,16 @@ public class SingleFilePreprocessorHandler {
     }
 
     @Test
+    public void skipUnsupportedDirective() throws IOException {
+        Path source = getTestResourcePath("data/unsupported-directive-case/unsupported-directive-source.txt");
+        Path expected = getTestResourcePath("data/unsupported-directive-case/unsupported-directive-expected.txt");
+
+        new SingleFilePreprocessor(source, tmpFile, lineHandler).runPreprocessFile();
+
+        assertFilesEquals(expected, tmpFile);
+    }
+
+    @Test
     public void ifDirectiveNested() throws IOException {
         Path source = getTestResourcePath("data/if-directive-case/if-directive-nested-source.txt");
         Path expected = getTestResourcePath("data/if-directive-case/if-directive-nested-expected.txt");

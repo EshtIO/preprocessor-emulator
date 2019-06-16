@@ -1,0 +1,5 @@
+// some code here 1
+#define SOME_DEFINE
+#define SOME_DEFINE_2
+// some code here 2
+// last line

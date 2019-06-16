@@ -1,5 +1,6 @@
 package com.eshtio.preprocessor.core.directives;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -26,11 +27,10 @@ public enum Directive {
         return key;
     }
 
-    public static Directive getByKey(String key) {
+    public static Optional<Directive> findByKey(String key) {
         return Stream.of(Directive.values())
                 .filter(directive -> directive.key.equals(key))
-                .findAny()
-                .orElseThrow(() -> new RuntimeException("Unsupported directive key '" + key + "'"));
+                .findAny();
     }
 
 }

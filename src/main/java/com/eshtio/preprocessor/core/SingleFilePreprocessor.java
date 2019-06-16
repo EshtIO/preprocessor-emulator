@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -48,11 +49,17 @@ public class SingleFilePreprocessor {
         String trimmedLine = line.trim();
         // if directive detected and supported, then change preprocessor state
         if (trimmedLine.startsWith(Directive.IDENTIFIER)) {
-            Directive directive = Directive.getByKey(trimmedLine.split(" ")[0]);
-            if (lineHandler.isSupportDirective(directive)) {
-                state = lineHandler.handleLine(directive, trimmedLine);
+            Optional<Directive> foundDirective = Directive.findByKey(trimmedLine.split(" ")[0]);
+            if (!foundDirective.isPresent()) {
+                // skip unsupported directives
+                writeLine(line, target);
             } else {
-                throw new UnsupportedDirectiveException(directive);
+                Directive directive = foundDirective.get();
+                if (lineHandler.isSupportDirective(directive)) {
+                    state = lineHandler.handleLine(directive, trimmedLine);
+                } else {
+                    throw new UnsupportedDirectiveException(directive);
+                }
             }
         } else {
             switch (state) {
