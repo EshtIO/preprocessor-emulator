@@ -51,7 +51,7 @@ public class SingleFilePreprocessor {
         if (trimmedLine.startsWith(Directive.IDENTIFIER)) {
             Optional<Directive> foundDirective = Directive.findByKey(trimmedLine.split(" ")[0]);
             if (!foundDirective.isPresent()) {
-                // skip unsupported directives
+                // skip unknown directives
                 writeLine(line, target);
             } else {
                 Directive directive = foundDirective.get();
