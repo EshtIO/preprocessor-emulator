@@ -4,12 +4,9 @@ import com.eshtio.preprocessor.config.PreprocessorConfig;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,14 +22,8 @@ public class CSharpFilesPreprocessorTest {
     private Path tempPath;
 
     @Before
-    @SuppressWarnings({"ResultOfMethodCallIgnored"})
     public void setUp() throws IOException {
-        tempPath = Paths.get(TestUtils.getBuildPath(), "test-data-temp");
-        try (Stream<Path> walk = Files.walk(tempPath)) {
-            walk.sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(File::delete);
-        }
+        tempPath = prepareBuildTestDataTmpPath();
     }
 
     @Test
